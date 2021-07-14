@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>231643447826-ihqntu69hasiikehuj7kesoo62v6utip.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.231643447826-ihqntu69hasiikehuj7kesoo62v6utip</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCE4p1F_X06zlFSCNb4QUO-4SDLYwdjMLI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>231643447826</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>muhuiyu.Roomie</string>
+	<key>PROJECT_ID</key>
+	<string>roomie-f26c6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>roomie-f26c6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:231643447826:ios:ce13f5d50c0f343ca4cecb</string>
+</dict>
+</plist>
