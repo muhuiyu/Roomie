@@ -94,8 +94,23 @@
 		E44DA1FB269DE7CD00AE4B66 /* RecipeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44DA1FA269DE7CD00AE4B66 /* RecipeListViewController.swift */; };
 		E44DA1FE269DE89700AE4B66 /* DatabaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44DA1FD269DE89700AE4B66 /* DatabaseDataSource.swift */; };
 		E44DA200269DE96300AE4B66 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E44DA1FF269DE96300AE4B66 /* GoogleService-Info.plist */; };
+		E452F9EE26AE6F4300FAB345 /* RecipeDetailInstructionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E452F9ED26AE6F4300FAB345 /* RecipeDetailInstructionCell.swift */; };
 		E45306AE2695957300F97DAC /* ChatInputBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45306AD2695957300F97DAC /* ChatInputBarView.swift */; };
 		E4933487269B44A200467CB0 /* MealsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4933486269B44A200467CB0 /* MealsViewController.swift */; };
+		E497345426B00B7800796D87 /* TableSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E497345326B00B7800796D87 /* TableSectionHeaderView.swift */; };
+		E497345826B00EA100796D87 /* SearchRecipeModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E497345726B00EA100796D87 /* SearchRecipeModalViewController.swift */; };
+		E497345A26B0257700796D87 /* EditMealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E497345926B0257700796D87 /* EditMealViewController.swift */; };
+		E497345C26B063F400796D87 /* MealsTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E497345B26B063F400796D87 /* MealsTableHeaderView.swift */; };
+		E497345E26B0658700796D87 /* DailyMealsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E497345D26B0658700796D87 /* DailyMealsCell.swift */; };
+		E497346326B18BC700796D87 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E497346226B18BC700796D87 /* WelcomeViewController.swift */; };
+		E497346526B18DD100796D87 /* GroupEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E497346426B18DD100796D87 /* GroupEntry.swift */; };
+		E497346A26B1901B00796D87 /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E497346926B1901B00796D87 /* SetupViewController.swift */; };
+		E49C196126AD77C10032B00F /* IngredientEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C196026AD77C10032B00F /* IngredientEntry.swift */; };
+		E49C196326ADBF1C0032B00F /* DailyMealsPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C196226ADBF1C0032B00F /* DailyMealsPlanViewController.swift */; };
+		E49C196526ADC1410032B00F /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C196426ADC1410032B00F /* RecipeCell.swift */; };
+		E49C196726ADC5D00032B00F /* RecipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C196626ADC5D00032B00F /* RecipeDetailViewController.swift */; };
+		E49C196926ADC8040032B00F /* RecipeDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C196826ADC8040032B00F /* RecipeDetailHeaderView.swift */; };
+		E4CE1ECC26B003CB008DB48C /* DataCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CE1ECB26B003CB008DB48C /* DataCollection.swift */; };
 		F2E43D8E11659B616454CE18 /* Pods_RoomieTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69EE1705A0E469032D59761F /* Pods_RoomieTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -212,8 +227,23 @@
 		E44DA1FA269DE7CD00AE4B66 /* RecipeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewController.swift; sourceTree = "<group>"; };
 		E44DA1FD269DE89700AE4B66 /* DatabaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseDataSource.swift; sourceTree = "<group>"; };
 		E44DA1FF269DE96300AE4B66 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E452F9ED26AE6F4300FAB345 /* RecipeDetailInstructionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailInstructionCell.swift; sourceTree = "<group>"; };
 		E45306AD2695957300F97DAC /* ChatInputBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBarView.swift; sourceTree = "<group>"; };
 		E4933486269B44A200467CB0 /* MealsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsViewController.swift; sourceTree = "<group>"; };
+		E497345326B00B7800796D87 /* TableSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSectionHeaderView.swift; sourceTree = "<group>"; };
+		E497345726B00EA100796D87 /* SearchRecipeModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecipeModalViewController.swift; sourceTree = "<group>"; };
+		E497345926B0257700796D87 /* EditMealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMealViewController.swift; sourceTree = "<group>"; };
+		E497345B26B063F400796D87 /* MealsTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsTableHeaderView.swift; sourceTree = "<group>"; };
+		E497345D26B0658700796D87 /* DailyMealsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMealsCell.swift; sourceTree = "<group>"; };
+		E497346226B18BC700796D87 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		E497346426B18DD100796D87 /* GroupEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEntry.swift; sourceTree = "<group>"; };
+		E497346926B1901B00796D87 /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
+		E49C196026AD77C10032B00F /* IngredientEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientEntry.swift; sourceTree = "<group>"; };
+		E49C196226ADBF1C0032B00F /* DailyMealsPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMealsPlanViewController.swift; sourceTree = "<group>"; };
+		E49C196426ADC1410032B00F /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
+		E49C196626ADC5D00032B00F /* RecipeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewController.swift; sourceTree = "<group>"; };
+		E49C196826ADC8040032B00F /* RecipeDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailHeaderView.swift; sourceTree = "<group>"; };
+		E4CE1ECB26B003CB008DB48C /* DataCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCollection.swift; sourceTree = "<group>"; };
 		F2D86D485BD122460AB85BE3 /* Pods_Roomie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Roomie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F325AEC97170876C14FB6494 /* Pods-RoomieTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RoomieTests.debug.xcconfig"; path = "Target Support Files/Pods-RoomieTests/Pods-RoomieTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F69D1B74A64CAFB5D434688D /* Pods-Roomie-RoomieUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roomie-RoomieUITests.release.xcconfig"; path = "Target Support Files/Pods-Roomie-RoomieUITests/Pods-Roomie-RoomieUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -395,6 +425,8 @@
 		E44C5242268F56FD00FDBDCB /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				E497346626B1900300796D87 /* Setup */,
+				E497345F26B18BAD00796D87 /* Auth */,
 				E44C52C6268F572300FDBDCB /* Home */,
 				E44C52C7268F572600FDBDCB /* Chat */,
 				E40FA2362693F65700528A80 /* List */,
@@ -524,19 +556,11 @@
 				E44C5281268F571700FDBDCB /* SearchLabelModalViewController.swift */,
 				E44C5282268F571700FDBDCB /* TitleMultipleChoicesButtonViewController.swift */,
 				E44C5283268F571700FDBDCB /* TitleDatePickerButtonViewController.swift */,
-				E44C5284268F571700FDBDCB /* New Group */,
 				E44C5285268F571700FDBDCB /* TitleImageButtonViewController.swift */,
 				E44C5286268F571700FDBDCB /* ImageTitleButtonViewController.swift */,
 				E44C5287268F571700FDBDCB /* AlertSingleTextFieldTwoActionsController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		E44C5284268F571700FDBDCB /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		E44C5288268F571700FDBDCB /* Map */ = {
@@ -552,7 +576,9 @@
 				E44C52D2268F58D400FDBDCB /* MessageEntry.swift */,
 				E40FA246269491D100528A80 /* ListEntry.swift */,
 				E44DA1EE269C8EF500AE4B66 /* RecipeEntry.swift */,
+				E49C196026AD77C10032B00F /* IngredientEntry.swift */,
 				E44DA1F0269C8EFE00AE4B66 /* DailyMealsEntry.swift */,
+				E497346426B18DD100796D87 /* GroupEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -625,6 +651,7 @@
 			isa = PBXGroup;
 			children = (
 				E44DA1FD269DE89700AE4B66 /* DatabaseDataSource.swift */,
+				E4CE1ECB26B003CB008DB48C /* DataCollection.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -634,11 +661,69 @@
 			children = (
 				E4933486269B44A200467CB0 /* MealsViewController.swift */,
 				E44DA1FA269DE7CD00AE4B66 /* RecipeListViewController.swift */,
+				E49C196226ADBF1C0032B00F /* DailyMealsPlanViewController.swift */,
+				E49C196626ADC5D00032B00F /* RecipeDetailViewController.swift */,
+				E497345926B0257700796D87 /* EditMealViewController.swift */,
+				E497345726B00EA100796D87 /* SearchRecipeModalViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
 		E4933485269B448E00467CB0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E49C196426ADC1410032B00F /* RecipeCell.swift */,
+				E497345D26B0658700796D87 /* DailyMealsCell.swift */,
+				E49C196826ADC8040032B00F /* RecipeDetailHeaderView.swift */,
+				E452F9ED26AE6F4300FAB345 /* RecipeDetailInstructionCell.swift */,
+				E497345326B00B7800796D87 /* TableSectionHeaderView.swift */,
+				E497345B26B063F400796D87 /* MealsTableHeaderView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E497345F26B18BAD00796D87 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				E497346126B18BBB00796D87 /* Views */,
+				E497346026B18BB500796D87 /* Controllers */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		E497346026B18BB500796D87 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E497346226B18BC700796D87 /* WelcomeViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E497346126B18BBB00796D87 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E497346626B1900300796D87 /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				E497346826B1900C00796D87 /* Views */,
+				E497346726B1900700796D87 /* Controllers */,
+			);
+			path = Setup;
+			sourceTree = "<group>";
+		};
+		E497346726B1900700796D87 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E497346926B1901B00796D87 /* SetupViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E497346826B1900C00796D87 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -919,8 +1004,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E49C196326ADBF1C0032B00F /* DailyMealsPlanViewController.swift in Sources */,
 				E44C5296268F571700FDBDCB /* IconButton.swift in Sources */,
 				E44C52D5268F639700FDBDCB /* TextMessageView.swift in Sources */,
+				E452F9EE26AE6F4300FAB345 /* RecipeDetailInstructionCell.swift in Sources */,
 				E44C529F268F571700FDBDCB /* SpinnerView.swift in Sources */,
 				E44C52B9268F571700FDBDCB /* Animations.swift in Sources */,
 				E44C528C268F571700FDBDCB /* AllowEditingCell.swift in Sources */,
@@ -930,17 +1017,22 @@
 				E44C52B6268F571700FDBDCB /* String+capitalization.swift in Sources */,
 				E44C52A7268F571700FDBDCB /* PagniationIndicator.swift in Sources */,
 				E44C529B268F571700FDBDCB /* SeparatorView.swift in Sources */,
+				E497346526B18DD100796D87 /* GroupEntry.swift in Sources */,
+				E497345E26B0658700796D87 /* DailyMealsCell.swift in Sources */,
 				E44C52BB268F571700FDBDCB /* ViewController.swift in Sources */,
 				E44C529E268F571700FDBDCB /* CardImageTitleSubtitleButton.swift in Sources */,
 				E44DA1EF269C8EF500AE4B66 /* RecipeEntry.swift in Sources */,
 				E44C52A2268F571700FDBDCB /* CustomSelectionField.swift in Sources */,
 				E44C52B5268F571700FDBDCB /* UIViewController+Utils.swift in Sources */,
+				E49C196926ADC8040032B00F /* RecipeDetailHeaderView.swift in Sources */,
 				E40FA24526948F9300528A80 /* ListDetailViewController.swift in Sources */,
 				E44C5293268F571700FDBDCB /* LinkCell.swift in Sources */,
 				E44C5290268F571700FDBDCB /* LabelWithDisclosureCell.swift in Sources */,
+				E49C196126AD77C10032B00F /* IngredientEntry.swift in Sources */,
 				E44C52AA268F571700FDBDCB /* IconTitleGridView.swift in Sources */,
 				E44C529D268F571700FDBDCB /* CardFullWidth.swift in Sources */,
 				E44C52BC268F571700FDBDCB /* SpinnerViewController.swift in Sources */,
+				E497345426B00B7800796D87 /* TableSectionHeaderView.swift in Sources */,
 				E44C528D268F571700FDBDCB /* LabelToggleCell.swift in Sources */,
 				E44C52A8268F571700FDBDCB /* MultipleChoiceCell.swift in Sources */,
 				E44C5298268F571700FDBDCB /* TextButton.swift in Sources */,
@@ -952,9 +1044,11 @@
 				E424EF56268F564100114947 /* AppDelegate.swift in Sources */,
 				E44C529C268F571700FDBDCB /* CardTitleImageButton.swift in Sources */,
 				E44C529A268F571700FDBDCB /* ProgressBarView.swift in Sources */,
+				E497345826B00EA100796D87 /* SearchRecipeModalViewController.swift in Sources */,
 				E44C52BD268F571700FDBDCB /* LoadingTextImageViewController.swift in Sources */,
 				E45306AE2695957300F97DAC /* ChatInputBarView.swift in Sources */,
 				E44C5291268F571700FDBDCB /* LabelCell.swift in Sources */,
+				E49C196726ADC5D00032B00F /* RecipeDetailViewController.swift in Sources */,
 				E44C52D7268F63A300FDBDCB /* ImageMessageView.swift in Sources */,
 				E44C52B8268F571700FDBDCB /* Constants.swift in Sources */,
 				E40FA24B2694A48700528A80 /* MessageTextCell.swift in Sources */,
@@ -967,12 +1061,15 @@
 				E44C52A6268F571700FDBDCB /* CustomTextField.swift in Sources */,
 				E40FA24326948C6200528A80 /* ListViewController.swift in Sources */,
 				E40FA24D26954DE300528A80 /* MessageImageCell.swift in Sources */,
+				E497346326B18BC700796D87 /* WelcomeViewController.swift in Sources */,
 				E44C52D3268F58D400FDBDCB /* MessageEntry.swift in Sources */,
 				E44C52AB268F571700FDBDCB /* CheckBox.swift in Sources */,
 				E44C52AC268F571700FDBDCB /* UIView+fadein.swift in Sources */,
 				E44C5289268F571700FDBDCB /* LabelDetailCell.swift in Sources */,
 				E44C52C2268F571700FDBDCB /* TitleImageButtonViewController.swift in Sources */,
+				E49C196526ADC1410032B00F /* RecipeCell.swift in Sources */,
 				E44C52A5268F571700FDBDCB /* UIFont+Theme.swift in Sources */,
+				E4CE1ECC26B003CB008DB48C /* DataCollection.swift in Sources */,
 				E44C52BA268F571700FDBDCB /* Status.swift in Sources */,
 				E44C528F268F571700FDBDCB /* DatePickerCell.swift in Sources */,
 				E40FA247269491D100528A80 /* ListEntry.swift in Sources */,
@@ -992,9 +1089,12 @@
 				E4933487269B44A200467CB0 /* MealsViewController.swift in Sources */,
 				E44DA1FE269DE89700AE4B66 /* DatabaseDataSource.swift in Sources */,
 				E424EF58268F564100114947 /* SceneDelegate.swift in Sources */,
+				E497345C26B063F400796D87 /* MealsTableHeaderView.swift in Sources */,
 				E44C52D1268F582A00FDBDCB /* MessageCell.swift in Sources */,
 				E44C5297268F571700FDBDCB /* RoundButton.swift in Sources */,
+				E497345A26B0257700796D87 /* EditMealViewController.swift in Sources */,
 				E44C52C4268F571700FDBDCB /* AlertSingleTextFieldTwoActionsController.swift in Sources */,
+				E497346A26B1901B00796D87 /* SetupViewController.swift in Sources */,
 				E44C52A1268F571700FDBDCB /* ChipView.swift in Sources */,
 				E44C52A4268F571700FDBDCB /* HeaderWithLargeTitleView.swift in Sources */,
 				E44C52A0268F571700FDBDCB /* BullettItemTitleSubtitleView.swift in Sources */,

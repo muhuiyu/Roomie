@@ -11,10 +11,17 @@ class RecipeListViewController: ViewController {
     
     private let tableView = UITableView()
     
+    private let database: DatabaseDataSource
+    init(database: DatabaseDataSource) {
+        self.database = database
+        super.init()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(RecipeCell.self, forCellReuseIdentifier: RecipeCell.reuseID)
         configureViews()
         configureGestures()
         configureConstraints()
@@ -38,10 +45,12 @@ extension RecipeListViewController {
 // MARK: - Data Source
 extension RecipeListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return database.allRecipes.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RecipeCell.reuseID, for: indexPath) as? RecipeCell else { return UITableViewCell() }
+        cell.recipeEntry = database.allRecipes[indexPath.row]
+        return cell
     }
 }
 // MARK: - Delegate
@@ -50,6 +59,11 @@ extension RecipeListViewController: UITableViewDelegate {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }
+        guard let cell = tableView.cellForRow(at: indexPath) as? RecipeCell else { return }
+        let viewController = RecipeDetailViewController()
+        viewController.entry = cell.recipeEntry
+        viewController.ingredientDictionary = database.ingredientDictionary
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

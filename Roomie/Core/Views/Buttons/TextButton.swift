@@ -33,6 +33,19 @@ class TextButton: UIView {
             textLabel.textColor = textColor
         }
     }
+    var textFont: UIFont? {
+        didSet {
+            textLabel.font = textFont
+        }
+    }
+    var buttonHeight: CGFloat = 44 {
+        didSet {
+            containerView.snp.remakeConstraints { make in
+                make.edges.equalToSuperview()
+                make.height.equalTo(buttonHeight)
+            }
+        }
+    }
     var buttonColor: UIColor? {
         didSet {
             switch buttonType {
@@ -117,7 +130,7 @@ extension TextButton {
         }
         containerView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(44)
+            make.height.equalTo(buttonHeight)
         }
     }
 }
