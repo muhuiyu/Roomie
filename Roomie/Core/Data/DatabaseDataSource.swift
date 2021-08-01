@@ -8,6 +8,10 @@
 import UIKit
 import Firebase
 
+protocol DatabaseDataSourceDelegate: AnyObject {
+    func databaseDataSourceGroupEntryDidChange(_ database: DatabaseDataSource)
+}
+
 class DatabaseDataSource: NSObject {
     
     private(set) var recipeDictionary = [RecipeID: RecipeEntry]()
@@ -15,7 +19,14 @@ class DatabaseDataSource: NSObject {
     private(set) var allRecipes = [RecipeEntry]()
     private(set) var allIngredients = [IngredientEntry]()
     
-    private(set) var currentGroupID = "baj3tAjA3m7r2jT8scPG"    // banh mi
+    weak var delegate: DatabaseDataSourceDelegate?
+    
+//    private(set) var currentGroupID = "baj3tAjA3m7r2jT8scPG"        // banh mi
+    private(set) var currentGroupEntry: GroupEntry? {
+        didSet {
+            delegate?.databaseDataSourceGroupEntryDidChange(self)
+        }
+    }
     
     struct CollectionName {
         static let chat = "chat"
@@ -25,8 +36,10 @@ class DatabaseDataSource: NSObject {
         static let groups = "groups"
     }
     struct KeyName {
+        static let users = "users"
         static let userID = "userID"
         static let groupID = "groupID"
+        static let cookID = "cookID"
         static let year = "year"
         static let month = "month"
         static let day = "day"
@@ -53,26 +66,77 @@ class DatabaseDataSource: NSObject {
         case dataKeyMissing
         case entryInitFailure
         case userMissing
+        case groupMissing
         case documentMissing
     }
 }
 // MARK: - Setup
 extension DatabaseDataSource {
-    func setup(callback: @escaping (_ error: Error?) -> Void) {
+    func setup(using groupID: GroupID, callback: @escaping (_ error: Error?) -> Void) {
+        let group = DispatchGroup()
+        
+        group.enter()
         self.downloadAllRecipes { error in
             if let error = error {
                 return callback(error)
             }
-            self.downloadAllIngredients { error in
-                if let error = error {
-                    return callback(error)
-                }
-                return callback(nil)
+            group.leave()
+        }
+        
+        group.enter()
+        self.downloadAllIngredients { error in
+            if let error = error {
+                return callback(error)
             }
+            group.leave()
+        }
+        
+        group.enter()
+        self.fetchCurrentGroup(with: groupID) { error in
+            if let error = error {
+                return callback(error)
+            }
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            return callback(nil)
         }
     }
     func fetchUserGroup(callback: @escaping(_ isHouseholdExist: Bool, _ error: Error?) -> Void) {
-        
+
+    }
+    func fetchCurrentGroup(with groupID: GroupID, callback: @escaping (_ error: Error?) -> Void) {
+        let ref = Firestore.firestore().collection(CollectionName.groups)
+        ref.document(groupID).getDocument { snapshot, error in
+            if let error = error { return callback(error) }
+            guard let snapshot = snapshot else { return }
+            
+            guard
+                let data = snapshot.data(),
+                let usersRawData = data[KeyName.users] as? [[String: String]],
+                let groupName = data[KeyName.name] as? String,
+                let cookID = data[KeyName.cookID] as? String
+            else { return callback(FirebaseError.dataKeyMissing) }
+            
+            var users = [userEntry]()
+            for userRawData in usersRawData {
+                guard
+                    let id = userRawData[KeyName.userID],
+                    let name = userRawData[KeyName.name]
+                else { return callback(FirebaseError.dataKeyMissing) }
+                users.append(userEntry(id: id, name: name))
+            }
+            self.currentGroupEntry = GroupEntry(id: groupID, name: groupName, users: users, cookID: cookID)
+            return callback(nil)
+        }
+    }
+    func isUserGroupCook() -> Bool {
+        guard
+            let user = Auth.auth().currentUser,
+            let group = currentGroupEntry
+        else { return false }
+        return user.uid == group.cookID
     }
 }
 // MARK: - Translation / Wordings
@@ -241,14 +305,17 @@ extension DatabaseDataSource {
         }
     }
     func setMealPlans(with plans: [DailyMealsEntry], callback: @escaping (_ error: Error?) -> Void) {
-        guard let user = Auth.auth().currentUser else { return callback(FirebaseError.userMissing) }
+        guard
+            let user = Auth.auth().currentUser,
+            let groupEntry = currentGroupEntry
+        else { return callback(FirebaseError.userMissing) }
         
         let ref = Firestore.firestore().collection(CollectionName.meals)
         let group = DispatchGroup()
         for entry in plans {
             let data = toFirestoreData(from: entry)
             
-            let id = user.uid + "-" + self.currentGroupID + "-" + String(entry.year) + String(entry.month) + String(entry.day)
+            let id = user.uid + "-" + groupEntry.id + "-" + String(entry.year) + String(entry.month) + String(entry.day)
             ref.document(id).setData(data) { error in
                 if let error = error { return callback(error) }
             }
@@ -263,10 +330,13 @@ extension DatabaseDataSource {
 // MARK: - Fetch
 extension DatabaseDataSource {
     func fetchMeals(on date: (Int, Int, Int), callback: @escaping (_ meals: [MealEntry], _ error: Error?) -> Void) {
-        guard let user = Auth.auth().currentUser else { return callback([], FirebaseError.userMissing) }
+        guard
+            let user = Auth.auth().currentUser,
+            let group = currentGroupEntry
+        else { return callback([], FirebaseError.userMissing) }
         
         let ref = Firestore.firestore().collection(CollectionName.meals)
-        ref.whereField(KeyName.groupID, isEqualTo: self.currentGroupID).whereField(KeyName.userID, isEqualTo: user.uid).whereField(KeyName.year, isEqualTo: date.0).whereField(KeyName.month, isEqualTo: date.1).whereField(KeyName.day, isEqualTo: date.2).getDocuments { snapshot, error in
+        ref.whereField(KeyName.groupID, isEqualTo: group.id).whereField(KeyName.userID, isEqualTo: user.uid).whereField(KeyName.year, isEqualTo: date.0).whereField(KeyName.month, isEqualTo: date.1).whereField(KeyName.day, isEqualTo: date.2).getDocuments { snapshot, error in
             if let error = error { return callback([], error) }
             guard let snapshot = snapshot else { return }
             
@@ -287,8 +357,45 @@ extension DatabaseDataSource {
             return callback(meals, nil)
         }
     }
+    func fetchGroupMeals(on date: (Int, Int, Int), callback: @escaping (_ groupMeals: [String: [MealEntry]], _ error: Error?) -> Void) {
+        guard let group = currentGroupEntry else { return callback([:], FirebaseError.groupMissing) }
+        
+        let ref = Firestore.firestore().collection(CollectionName.meals)
+        ref.whereField(KeyName.groupID, isEqualTo: group.id).whereField(KeyName.year, isEqualTo: date.0).whereField(KeyName.month, isEqualTo: date.1).whereField(KeyName.day, isEqualTo: date.2).getDocuments { snapshot, error in
+            if let error = error { return callback([:], error) }
+            guard let snapshot = snapshot else { return }
+            
+            if snapshot.isEmpty { return callback([:], nil) }
+            
+            var groupMeals = [String: [MealEntry]]()    // userID to meals
+            
+            for change in snapshot.documentChanges {
+                if change.type == .added {
+                    let data = change.document.data()
+                    guard
+                        let userID = data[KeyName.userID] as? String,
+                        let mealsRawData = data[KeyName.meals] as? [[String : Any]]
+                    else { return callback([:], FirebaseError.dataKeyMissing) }
+                    
+                    for mealRawData in mealsRawData {
+                        guard
+                            let mealName = mealRawData[KeyName.name] as? String,
+                            let mealRecipes = mealRawData[KeyName.recipes] as? [String]
+                        else { return callback([:], FirebaseError.dataKeyMissing) }
+                        
+                        if groupMeals[userID] == nil { groupMeals[userID] = [] }
+                        groupMeals[userID]?.append(MealEntry(name: mealName, recipes: mealRecipes))
+                    }
+                }
+            }
+            return callback(groupMeals, nil)
+        }
+    }
     func fetchMealPlan(from startDate: Date, to endDate: Date, callback: @escaping(_ entries: [DailyMealsEntry], _ error: Error?) -> Void) {
-        guard let user = Auth.auth().currentUser else { return callback([], FirebaseError.userMissing) }
+        guard
+            let user = Auth.auth().currentUser,
+            let groupEntry = currentGroupEntry
+        else { return callback([], FirebaseError.userMissing) }
         
         let group = DispatchGroup()
         var entries = [DailyMealsEntry]()
@@ -305,7 +412,7 @@ extension DatabaseDataSource {
 
             self.fetchMeals(on: (date.year, date.month, date.dayOfMonth)) { meals, error in
                 if let error = error { return callback([], error) }
-                entries.append(DailyMealsEntry(userID: user.uid, groupID: self.currentGroupID, year: date.year, month: date.month, day: date.dayOfMonth, meals: meals))
+                entries.append(DailyMealsEntry(userID: user.uid, groupID: groupEntry.id, year: date.year, month: date.month, day: date.dayOfMonth, meals: meals))
                 group.leave()
             }
         }
@@ -314,6 +421,42 @@ extension DatabaseDataSource {
                 return leftEntry < rightEntry
             }
             print("fetched meal plan")
+            return callback(entries, nil)
+        }
+    }
+    func fetchGroupMealPlan(from startDate: Date, to endDate: Date, callback: @escaping(_ entries: [[DailyMealsEntry]], _ error: Error?) -> Void) {
+        guard let groupEntry = currentGroupEntry else { return callback([], FirebaseError.groupMissing) }
+        
+        let group = DispatchGroup()
+        var entries = [[DailyMealsEntry]]()
+        
+        var dateList = [Date]()
+        var currentDate = startDate
+        while currentDate <= endDate {
+            dateList.append(currentDate)
+            currentDate = currentDate.dayAfter
+        }
+        
+        for date in dateList {
+            group.enter()
+            self.fetchGroupMeals(on: (date.year, date.month, date.dayOfMonth)) { groupMeals, error in
+                if let error = error { return callback([], error) }
+                var dailyMealPlans = [DailyMealsEntry]()
+                for (userID, meals) in groupMeals {
+                    dailyMealPlans.append(DailyMealsEntry(userID: userID, groupID: groupEntry.id, year: date.year, month: date.month, day: date.dayOfMonth, meals: meals))
+                }
+                dailyMealPlans.sort { leftEntry, rightEntry in
+                    return leftEntry.userID < rightEntry.userID
+                }
+                entries.append(dailyMealPlans)
+                group.leave()
+            }
+        }
+        group.notify(queue: .main) {
+            entries.sort { leftEntry, rightEntry in
+                return leftEntry[0] < rightEntry[0]
+            }
+            print("fetched group meal plan")
             return callback(entries, nil)
         }
     }

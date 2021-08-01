@@ -82,4 +82,14 @@ extension Date {
         let weekDay = calendar.component(.weekday, from: self)
         return self.day(before: weekDay-1)
     }
+    func isTodayWeekend() -> Bool {
+        let calendar = Calendar(identifier: .gregorian)
+        let weekDay = calendar.component(.weekday, from: self)
+        return (weekDay == 1 || weekDay == 7)
+    }
+    func isToday(weekDay: Int) -> Bool {
+        let calendar = Calendar(identifier: .gregorian)
+        let todayWeekDay = calendar.component(.weekday, from: self)
+        return (todayWeekDay == weekDay)
+    }
 }

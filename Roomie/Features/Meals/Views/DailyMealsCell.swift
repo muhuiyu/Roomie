@@ -11,6 +11,16 @@ class DailyMealsCell: UITableViewCell {
     static let reuseID = "DailyMealsCell"
     private let stackView = UIStackView()
     
+    var userName: String? {
+        didSet {
+            let label = UILabel()
+            label.text = userName
+            label.font = UIFont.body
+            label.textColor = UIColor.label.withAlphaComponent(0.8)
+            label.numberOfLines = 0
+            stackView.insertArrangedSubview(label, at: 0)
+        }
+    }
     var mealData: [(String, String)] = [] {
         didSet {
             stackView.removeAllArrangedSubviews()

@@ -8,6 +8,10 @@
 import UIKit
 import Firebase
 
+protocol SettingsViewControllerDelegate: AnyObject {
+    func settingsViewControllerDidLogoutSuccessfully(_ controller: SettingsViewController)
+}
+
 class SettingsViewController: ViewController {
     private let tableView = UITableView()
     
@@ -20,6 +24,8 @@ class SettingsViewController: ViewController {
     private let manageCalendarCell = UITableViewCell()
     
     private let logoutCell = LinkCell()
+    
+    weak var delegate: SettingsViewControllerDelegate?
     
     override init() {
         super.init()
@@ -56,7 +62,7 @@ extension SettingsViewController {
         catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
-        print("okay")
+        delegate?.settingsViewControllerDidLogoutSuccessfully(self)
     }
 }
 // MARK: - View Config

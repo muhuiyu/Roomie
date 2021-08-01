@@ -10,7 +10,6 @@ import Firebase
 
 protocol DailyMealsPlanViewControllerDelegate: AnyObject {
     func dailyMealsPlanViewController(_ controller: DailyMealsPlanViewController, requestToSave entry: DailyMealsEntry, at weekdayIndex: Int)
-//    func dailyMealsPlanViewControllerDidRequestDismiss(_ controller: DailyMealsPlanViewController)
 }
 
 class DailyMealsPlanViewController: ViewController {
@@ -81,6 +80,7 @@ extension DailyMealsPlanViewController {
         let viewController = SearchRecipeModalViewController(database: database)
         viewController.delegate = self
         viewController.selectedMealIndex = mealIndex
+        viewController.isModalInPresentation = true
         present(viewController.embedInNavgationController(), animated: true) {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -145,16 +145,18 @@ extension DailyMealsPlanViewController: UITableViewDelegate {
         var ingredientsID = [String]()
         for ingredientRef in recipeEntry.ingredients { ingredientsID.append(ingredientRef.id) }
         
-        self.database.updateIngredientDictionary(with: ingredientsID) { error in
-            if let error = error {
-                print(error)
-                return
-            }
-            let viewController = RecipeDetailViewController()
-            viewController.entry = cell.recipeEntry
-            viewController.ingredientDictionary = self.database.ingredientDictionary
-            self.navigationController?.pushViewController(viewController, animated: true)
-        }
+        let viewController = RecipeDetailViewController()
+        viewController.entry = cell.recipeEntry
+        viewController.ingredientDictionary = self.database.ingredientDictionary
+        self.navigationController?.pushViewController(viewController, animated: true)
+        
+//        self.database.updateIngredientDictionary(with: ingredientsID) { error in
+//            if let error = error {
+//                print(error)
+//                return
+//            }
+//            
+//        }
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

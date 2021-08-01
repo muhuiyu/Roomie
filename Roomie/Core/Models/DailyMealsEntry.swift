@@ -19,6 +19,14 @@ struct DailyMealsEntry: Equatable, Comparable {
     let day: Int
     var meals: [MealEntry]
     
+    func isMealEmpty() -> Bool {
+        if meals.isEmpty { return true }
+        for meal in meals {
+            if !meal.recipes.isEmpty { return false }
+        }
+        return true
+    }
+    
     func printWeekDayAndDayWithoutYear() -> String {
         var dateComponents = DateComponents()
         dateComponents.year = self.year

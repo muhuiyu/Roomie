@@ -48,7 +48,8 @@ extension RecipeDetailHeaderView {
 // MARK: - View Config
 extension RecipeDetailHeaderView {
     private func configureViews() {
-        bannerView.contentMode = .scaleAspectFit
+        bannerView.contentMode = .scaleAspectFill
+        bannerView.clipsToBounds = true
         addSubview(bannerView)
         
         titleLabel.font = UIFont.h3
@@ -71,9 +72,9 @@ extension RecipeDetailHeaderView {
     private func configureConstraints() {
         bannerView.snp.remakeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
-//            make.width.equalTo(Constants.imageSize.fitScreen)
+            make.width.equalTo(Constants.imageSize.fitScreen)
 //            make.height.equalTo(bannerView.snp.width).multipliedBy(0.5)
-            make.height.equalTo(150)
+            make.height.lessThanOrEqualTo(300)
         }
         titleLabel.snp.remakeConstraints { make in
             make.top.equalTo(bannerView.snp.bottom).offset(Constants.spacing.large)

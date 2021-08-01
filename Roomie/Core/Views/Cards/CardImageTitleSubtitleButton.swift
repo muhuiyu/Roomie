@@ -55,11 +55,11 @@ extension CardImageTitleSubtitleButton {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         addSubview(imageView)
-        titleLabel.textColor = UIColor.basic.dark
+        titleLabel.textColor = UIColor.label
         titleLabel.font = UIFont.h3
         addSubview(titleLabel)
         subtitleLabel.numberOfLines = 0
-        subtitleLabel.textColor = UIColor.text.subtle
+        subtitleLabel.textColor = UIColor.label
         subtitleLabel.font = UIFont.small
         addSubview(subtitleLabel)
         addSubview(actionButton)
@@ -85,6 +85,7 @@ extension CardImageTitleSubtitleButton {
         }
         actionButton.snp.remakeConstraints { make in
             make.top.equalTo(subtitleLabel.snp.bottom).offset(Constants.spacing.medium)
+            make.height.equalTo(36)
             make.leading.trailing.bottom.equalTo(layoutMarginsGuide).inset(Constants.spacing.medium)
         }
     }

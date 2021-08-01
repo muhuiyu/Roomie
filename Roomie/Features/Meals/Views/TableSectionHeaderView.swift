@@ -17,7 +17,16 @@ class TableSectionHeaderView: UIView {
     }
     var isTextBold: Bool = true {
         didSet {
-            textLabel.font = isTextBold ? UIFont.bodyHeavy : UIFont.body
+            switch textLabel.font {
+            case UIFont.body: textLabel.font = UIFont.bodyHeavy
+            case UIFont.small: textLabel.font = UIFont.smallBold
+            default: return
+            }
+        }
+    }
+    var textFont: UIFont? {
+        didSet {
+            textLabel.font = textFont
         }
     }
     var buttonIcon: UIImage? {

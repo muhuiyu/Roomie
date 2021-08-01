@@ -11,7 +11,13 @@ typealias UserID = String
 typealias GroupID = String
 
 struct GroupEntry {
-    let id: GroupID
+    var id: GroupID
+    var name: String
+    var users: [userEntry]
+    var cookID: UserID
+}
+
+struct userEntry {
+    let id: UserID
     let name: String
-    let users: [UserID]
 }

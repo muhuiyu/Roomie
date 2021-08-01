@@ -1,20 +1,20 @@
 //
-//  MealsViewController.swift
+//  GroupMealsViewController.swift
 //  Roomie
 //
-//  Created by Mu Yu on 11/7/21.
+//  Created by Mu Yu on 31/7/21.
 //
 
 import UIKit
 import Firebase
 
-class MealsViewController: ViewController {
+class GroupMealsViewController: ViewController {
     private var headerView = MealsTableHeaderView()
     
     private var tableView = UITableView()
     private var activityIndicatorView = UIActivityIndicatorView()
     
-    private var dailyEntries = [DailyMealsEntry]() {
+    private var dailyEntries = [[DailyMealsEntry]]() {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -34,7 +34,7 @@ class MealsViewController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(LinkCell.self, forCellReuseIdentifier: LinkCell.reuseID)
@@ -48,7 +48,7 @@ class MealsViewController: ViewController {
         configureGestures()
         configureConstraints()
         
-        database.fetchMealPlan(from: startDate, to: endDate) { entries, error in
+        database.fetchGroupMealPlan(from: startDate, to: endDate) { entries, error in
             if let error = error {
                 print(error)
                 return
@@ -65,43 +65,25 @@ class MealsViewController: ViewController {
     }
 }
 // MARK: - Actions
-extension MealsViewController {
+extension GroupMealsViewController {
     @objc
-    private func didTapRecipes() {
-        let viewController = RecipeListViewController(database: database)
-        navigationController?.pushViewController(viewController, animated: true)
-    }
-    private func didTapAddMeal(on date: (Int, Int, Int), at weekdayIndex: Int) {
-        guard
-            let user = Auth.auth().currentUser,
-            let group = database.currentGroupEntry
-        else { return }
+    private func didTapGrocery() {
         
-        let emptyEntry = DailyMealsEntry(userID: user.uid, groupID: group.id, year: date.0, month: date.1, day: date.2, meals: [
-            MealEntry(name: "Breakfast", recipes: []),
-            MealEntry(name: "Lunch", recipes: []),
-            MealEntry(name: "Dinner", recipes: []),
-            MealEntry(name: "Others", recipes: []),
-        ])
-        let viewController = DailyMealsPlanViewController(database: database, entry: emptyEntry, weekdayIndex: weekdayIndex)
-        viewController.delegate = self
-        viewController.title = emptyEntry.printWeekDayAndDayWithoutYear()
-        navigationController?.pushViewController(viewController, animated: true)
     }
     private func didTapRandom() {
         
     }
 }
 // MARK: - View Config
-extension MealsViewController {
+extension GroupMealsViewController {
     private func configureViews() {
-        title = "Meals"
+        title = "Group Meals"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Recipes", style: .plain, target: self, action: #selector(didTapRecipes))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Grocery", style: .plain, target: self, action: #selector(didTapGrocery))
         
         view.addSubview(activityIndicatorView)
         
-        headerView.buttonText = "Randomize my week"
+        headerView.buttonText = "Create List"
         headerView.date = startDate.printDayWithoutYear() + " - " + endDate.printDayWithoutYear()
         headerView.tapHandler = {[weak self] in
             self?.didTapRandom()
@@ -114,7 +96,7 @@ extension MealsViewController {
     }
     private func configureConstraints() {
         tableView.snp.remakeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
         activityIndicatorView.snp.remakeConstraints { make in
             make.center.equalToSuperview()
@@ -122,9 +104,9 @@ extension MealsViewController {
     }
 }
 // MARK: - Data Source
-extension MealsViewController: UITableViewDataSource {
+extension GroupMealsViewController: UITableViewDataSource {
     private func printDate(viewForHeaderInSection section: Int) -> String? {
-        let dailyEntry = dailyEntries[section]
+        let dailyEntry = dailyEntries[section][0]
         
         var dateComponents = DateComponents()
         dateComponents.year = dailyEntry.year
@@ -149,45 +131,36 @@ extension MealsViewController: UITableViewDataSource {
         return dailyEntries.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return dailyEntries[0].count    // how many users in the group
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dayEntry = dailyEntries[indexPath.section]
-        
-        if dayEntry.isMealEmpty() {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: LinkCell.reuseID, for: indexPath) as? LinkCell else { return UITableViewCell() }
-            cell.linkText = "+ Add meal"
-            cell.tapHandler = {[weak self] in
-                self?.didTapAddMeal(on: (dayEntry.year, dayEntry.month, dayEntry.day), at: indexPath.section)
-            }
-            return cell
-        }
-        else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyMealsCell.reuseID, for: indexPath) as? DailyMealsCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyMealsCell.reuseID, for: indexPath) as? DailyMealsCell else { return UITableViewCell() }
 
-            var mealData = [(String, String)]()     // mealName, mealList
-            for meal in dayEntry.meals {
-                if meal.recipes.count == 0 { continue }
-                
-                var recipeNames = [String]()
-                for recipe in meal.recipes {
-                    guard let recipeName = self.database.recipeDictionary[recipe] else { continue }
-                    recipeNames.append(recipeName.name)
-                }
-                mealData.append((meal.name, recipeNames.joined(separator: ", ")))
+        let dayEntry = dailyEntries[indexPath.section][indexPath.row]
+        
+        var mealData = [(String, String)]()     // mealName, mealList
+        for meal in dayEntry.meals {
+            if meal.recipes.count == 0 { continue }
+            
+            var recipeNames = [String]()
+            for recipe in meal.recipes {
+                guard let recipeName = self.database.recipeDictionary[recipe] else { continue }
+                recipeNames.append(recipeName.name)
             }
-            cell.mealData = mealData
-            return cell
+            mealData.append((meal.name, recipeNames.joined(separator: ", ")))
         }
+        cell.userName = dayEntry.userID
+        cell.mealData = mealData
+        return cell
     }
 }
 // MARK: - Delegate
-extension MealsViewController: UITableViewDelegate {
+extension GroupMealsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }
-        let dailyEntry = dailyEntries[indexPath.section]
+        let dailyEntry = dailyEntries[indexPath.section][indexPath.row]
         let viewController = DailyMealsPlanViewController(database: database, entry: dailyEntry, weekdayIndex: indexPath.section)
         viewController.delegate = self
         viewController.title = dailyEntry.printWeekDayAndDayWithoutYear()
@@ -195,14 +168,14 @@ extension MealsViewController: UITableViewDelegate {
     }
 }
 // MARK: - Delegate from DailyMealsViewController
-extension MealsViewController: DailyMealsPlanViewControllerDelegate {
+extension GroupMealsViewController: DailyMealsPlanViewControllerDelegate {
     func dailyMealsPlanViewController(_ controller: DailyMealsPlanViewController, requestToSave entry: DailyMealsEntry, at weekdayIndex: Int) {
-        dailyEntries[weekdayIndex] = entry
-        database.setMealPlans(with: [entry]) { error in
-            if let error = error {
-                print(error)
-                return
-            }
-        }
+//        dailyEntries[weekdayIndex] = entry
+//        database.setMealPlans(with: [entry]) { error in
+//            if let error = error {
+//                print(error)
+//                return
+//            }
+//        }
     }
 }

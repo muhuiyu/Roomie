@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                fatalError()
 //            }
 //        }
+//
 //        let recipes: [RecipeEntry] = [
 //            RecipeEntry(id: "recipe-corn-and-cream-korokke",
 //                        name: "コーンコロッケ (corn & cream korokke)",
@@ -48,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                            ""
 //                        ]),
 //        ]
-//
 //        database.setRecipes(with: recipes) { error in
 //            if let error = error {
 //                print(error)
@@ -73,35 +73,42 @@ extension AppDelegate {
     private func setViewControllers(window: UIWindow) {
         let database = DatabaseDataSource()
         
-        database.setup { error in
+        database.setup(using: "baj3tAjA3m7r2jT8scPG") { error in
             if let error = error {
                 print(error)
                 return
             }
         }
         
-        let homeViewController = HomeViewController()
-        let chatViewController = ChatViewController()
+        let homeViewController = HomeViewController(database: database)
+//        let chatViewController = ChatViewController()
         let listViewController = ListViewController()
-        let mealsViewController = MealsViewController(database: database)
         let settingsViewController = SettingsViewController()
+        settingsViewController.delegate = self
         
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [
             homeViewController.embedInNavgationController(),
-            mealsViewController.embedInNavgationController(),
-            chatViewController.embedInNavgationController(),
+//            chatViewController.embedInNavgationController(),
             listViewController.embedInNavgationController(),
             settingsViewController.embedInNavgationController()
         ]
         window.rootViewController = tabBarController
     }
 }
-extension AppDelegate: WelcomeViewControllerDelegate {
+extension AppDelegate: WelcomeViewControllerDelegate, SettingsViewControllerDelegate {
     func welcomeViewControllerDidLoginSuccessfully(_ controller: WelcomeViewController) {
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
         setViewControllers(window: window)
+        window.makeKeyAndVisible()
+    }
+    func settingsViewControllerDidLogoutSuccessfully(_ controller: SettingsViewController) {
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        self.window = window
+        let welcomeViewController = WelcomeViewController()
+        welcomeViewController.delegate = self
+        window.rootViewController = welcomeViewController
         window.makeKeyAndVisible()
     }
 }

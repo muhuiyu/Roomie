@@ -9,7 +9,7 @@ import UIKit
 
 class MealsTableHeaderView: UIView {
     private var dateLabel = UILabel()
-    private var randomButton = TextButton(frame: .zero, buttonType: .secondary)
+    private var actionButton = TextButton(frame: .zero, buttonType: .secondary)
     
     var date: String? {
         get { return dateLabel.text }
@@ -17,7 +17,12 @@ class MealsTableHeaderView: UIView {
     }
     var tapHandler: (() -> Void)? {
         didSet {
-            randomButton.tapHandler = tapHandler
+            actionButton.tapHandler = tapHandler
+        }
+    }
+    var buttonText: String? {
+        didSet {
+            actionButton.text = buttonText
         }
     }
     
@@ -38,10 +43,9 @@ extension MealsTableHeaderView {
         dateLabel.font = UIFont.body
         dateLabel.textColor = UIColor.secondaryLabel
         addSubview(dateLabel)
-        randomButton.text = "Randomize my week"
-        randomButton.buttonHeight = 32
-        randomButton.textFont = UIFont.smallBold
-        addSubview(randomButton)
+        actionButton.buttonHeight = 32
+        actionButton.textFont = UIFont.smallBold
+        addSubview(actionButton)
     }
     private func configureGestures() {
         
@@ -51,7 +55,7 @@ extension MealsTableHeaderView {
             make.leading.trailing.equalToSuperview().inset(Constants.spacing.medium)
             make.top.equalToSuperview()
         }
-        randomButton.snp.remakeConstraints { make in
+        actionButton.snp.remakeConstraints { make in
             make.leading.equalTo(dateLabel)
             make.width.equalTo(160)
             make.top.equalTo(dateLabel.snp.bottom).offset(Constants.spacing.small)

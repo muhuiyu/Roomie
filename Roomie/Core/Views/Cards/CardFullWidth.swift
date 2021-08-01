@@ -48,11 +48,11 @@ extension CardFullWidth {
 // MARK: - View Config
 extension CardFullWidth {
     private func configureViews() {
-        titleLabel.textColor = UIColor.basic.dark
-        titleLabel.font = UIFont.bodyBold
+        titleLabel.textColor = UIColor.label
+        titleLabel.font = UIFont.bodyHeavy
         stackView.addArrangedSubview(titleLabel)
         subtitleLabel.numberOfLines = 0
-        subtitleLabel.textColor = UIColor.text.subtle
+        subtitleLabel.textColor = UIColor.label
         subtitleLabel.font = UIFont.small
         stackView.addArrangedSubview(subtitleLabel)
         stackView.axis = .vertical

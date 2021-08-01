@@ -18,8 +18,13 @@ class SearchRecipeModalViewController: ViewController {
     private var isSearchBarEmpty: Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
+    // start filtering
+    private var isFiltering: Bool {
+        return searchController.isActive && !isSearchBarEmpty
+    }
+    private var filteredData: [RecipeEntry] = []
+    // End filtering
     
-    private var allRecipes = [RecipeEntry]()
     private var emptyStateItems = [String: [RecipeEntry]]()
     private var items: [RecipeEntry] = [] {
         didSet {
@@ -47,7 +52,8 @@ class SearchRecipeModalViewController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.allRecipes = self.database.allRecipes
+        self.items = self.database.allRecipes
+        
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.configureViews()
@@ -60,11 +66,17 @@ class SearchRecipeModalViewController: ViewController {
 }
 // MARK: - Actions
 extension SearchRecipeModalViewController {
-    private func requestSearchResult(with searchText: String) {
-        self.items = self.allRecipes.filter({ (item: RecipeEntry) -> Bool in
+    private func filterContentForSearchText(_ searchText: String) {
+        self.filteredData = self.database.allRecipes.filter({ (item: RecipeEntry) -> Bool in
             return item.name.lowercased().contains(searchText.lowercased())
         })
+        items = self.filteredData
     }
+//    private func requestSearchResult(with searchText: String) {
+//        self.items = self.database.allRecipes.filter({ (item: RecipeEntry) -> Bool in
+//            return item.name.lowercased().contains(searchText.lowercased())
+//        })
+//    }
     @objc
     private func didTapDismiss() {
         delegate?.searchRecipeModalViewControllerDidRequestDismiss(self)
@@ -113,16 +125,17 @@ extension SearchRecipeModalViewController: UITableViewDelegate {
         }
         delegate?.searchRecipeModalViewController(self, didSelectItem: items[indexPath.row], for: selectedMealIndex)
     }
-//    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        <#code#>
-//    }
 }
 // MARK: - Search Result
 extension SearchRecipeModalViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if !isSearchBarEmpty {
             let searchBar = searchController.searchBar
-            requestSearchResult(with: searchBar.text!)
+            filterContentForSearchText(searchBar.text!)
+//            requestSearchResult(with: searchBar.text!)
+        }
+        else {
+            self.items = self.database.allRecipes
         }
     }
 }

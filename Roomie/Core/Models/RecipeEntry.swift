@@ -138,6 +138,7 @@ enum RecipeCuisine: String {
 enum RecipeCategory: String {
     case mainCourse = "mainCourse"
     case sidedish = "sidedish"
+    case hotpot = "hotpot"
     case drink = "drink"
     case snack = "snack"
     case dessert = "dessert"
