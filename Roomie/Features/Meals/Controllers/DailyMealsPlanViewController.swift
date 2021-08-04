@@ -26,6 +26,13 @@ class DailyMealsPlanViewController: ViewController {
     }
     private let weekdayIndex: Int
     
+    var mode: PageMode = .edit
+    
+    enum PageMode {
+        case edit
+        case view
+    }
+    
     weak var delegate: DailyMealsPlanViewControllerDelegate?
     
     init(database: DatabaseDataSource, entry: DailyMealsEntry, weekdayIndex: Int) {
@@ -77,6 +84,8 @@ extension DailyMealsPlanViewController {
 // MARK: - Actions
 extension DailyMealsPlanViewController {
     private func didTapAddMeal(at mealIndex: Int) {
+        if mode == .view { return }
+        
         let viewController = SearchRecipeModalViewController(database: database)
         viewController.delegate = self
         viewController.selectedMealIndex = mealIndex
@@ -102,7 +111,7 @@ extension DailyMealsPlanViewController: UITableViewDataSource {
         
         view.text = mealEntry.name
         view.isTextBold = true
-        view.isButtonHidden = mealEntry.recipes.isEmpty ? true : false
+        view.isButtonHidden = (mealEntry.recipes.isEmpty || mode == .view) ? true : false
         view.buttonTapHandler = {[weak self] in
             self?.didTapAddMeal(at: section)
         }
@@ -114,18 +123,28 @@ extension DailyMealsPlanViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let mealEntry = entry.meals[indexPath.section]
         if mealEntry.recipes.isEmpty {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: LinkCell.reuseID, for: indexPath) as? LinkCell else { return UITableViewCell() }
-            cell.linkText = "+ Add meal"
-            cell.tapHandler = {[weak self] in
-                self?.didTapAddMeal(at: indexPath.section)
+            switch mode {
+            case .view:
+                let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+                cell.textLabel?.text = "No records yet"
+                cell.textLabel?.textColor = UIColor.tertiaryLabel
+                cell.textLabel?.numberOfLines = 0
+                return cell
+            case .edit:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: LinkCell.reuseID, for: indexPath) as? LinkCell else { return UITableViewCell() }
+                cell.linkText = "+ Add meal"
+                cell.tapHandler = {[weak self] in
+                    self?.didTapAddMeal(at: indexPath.section)
+                }
+                return cell
             }
-            return cell
         }
         else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: RecipeCell.reuseID, for: indexPath) as? RecipeCell else { return UITableViewCell() }
             let recipeID = entry.meals[indexPath.section].recipes[indexPath.row]
             let recipeEntry = database.recipeDictionary[recipeID]
             cell.textLabel?.text = recipeEntry?.name
+            cell.textLabel?.numberOfLines = 0
             cell.recipeEntry = recipeEntry
             return cell
         }
@@ -137,26 +156,28 @@ extension DailyMealsPlanViewController: UITableViewDelegate {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }
-        guard
-            let cell = tableView.cellForRow(at: indexPath) as? RecipeCell,
-            let recipeEntry = cell.recipeEntry
-        else { return }
         
-        var ingredientsID = [String]()
-        for ingredientRef in recipeEntry.ingredients { ingredientsID.append(ingredientRef.id) }
-        
-        let viewController = RecipeDetailViewController()
-        viewController.entry = cell.recipeEntry
-        viewController.ingredientDictionary = self.database.ingredientDictionary
-        self.navigationController?.pushViewController(viewController, animated: true)
-        
-//        self.database.updateIngredientDictionary(with: ingredientsID) { error in
-//            if let error = error {
-//                print(error)
-//                return
-//            }
-//            
-//        }
+        switch mode {
+        case .view:
+            guard let cell = tableView.cellForRow(at: indexPath) as? RecipeCell else { return }
+            let viewController = RecipeDetailViewController()
+            viewController.entry = cell.recipeEntry
+            viewController.ingredientDictionary = self.database.ingredientDictionary
+            self.navigationController?.pushViewController(viewController, animated: true)
+        case .edit:
+            guard let _ = tableView.cellForRow(at: indexPath) as? RecipeCell else { return }
+
+            let viewController = SearchRecipeModalViewController(database: database)
+            viewController.delegate = self
+            viewController.previousSelectedIndexpath = indexPath
+            viewController.selectedMealIndex = indexPath.section
+            viewController.isModalInPresentation = true
+            present(viewController.embedInNavgationController(), animated: true) {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -175,5 +196,11 @@ extension DailyMealsPlanViewController: SearchRecipeModalViewControllerDelegate 
     }
     func searchRecipeModalViewControllerDidRequestDismiss(_ controller: SearchRecipeModalViewController) {
         self.dismiss(animated: true, completion: nil)
+    }
+    func searchRecipeModalViewController(_ controller: SearchRecipeModalViewController, didSelectItem item: RecipeEntry, toReplaceAt indexPath: IndexPath) {
+        self.dismiss(animated: true) {
+            self.entry.meals[indexPath.section].recipes[indexPath.row] = item.id
+            self.delegate?.dailyMealsPlanViewController(self, requestToSave: self.entry, at: self.weekdayIndex)
+        }
     }
 }

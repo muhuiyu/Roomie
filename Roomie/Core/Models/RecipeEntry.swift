@@ -12,7 +12,7 @@ struct RecipeEntry {
     let id: RecipeID
     let name: String
     let subtitle: String
-    let imageName: String
+    let imageStoragePath: String
     let meals: [RecipeMeal]
     let tags: [RecipeTag]
     let cuisines: [RecipeCuisine]
@@ -27,7 +27,7 @@ struct RecipeEntry {
             let data = document.data(),
             let name = data[DatabaseDataSource.KeyName.name] as? String,
             let subtitle = data[DatabaseDataSource.KeyName.subtitle] as? String,
-            let imageName = data[DatabaseDataSource.KeyName.imageName] as? String,
+            let imageStoragePath = data[DatabaseDataSource.KeyName.imageStoragePath] as? String,
             let mealsRawData = data[DatabaseDataSource.KeyName.meals] as? [String],
             let tagsRawData = data[DatabaseDataSource.KeyName.tags] as? [String],
             let cuisinesRawData = data[DatabaseDataSource.KeyName.cuisines] as? [String],
@@ -39,7 +39,7 @@ struct RecipeEntry {
         
         self.name = name
         self.subtitle = subtitle
-        self.imageName = imageName
+        self.imageStoragePath = imageStoragePath
         self.servings = servings
         self.instructions = instructions
         
@@ -83,11 +83,11 @@ struct RecipeEntry {
         }
         self.ingredients = ingredients
     }
-    init(id: RecipeID, name: String, subtitle: String, imageName: String, meals: [RecipeMeal], tags: [RecipeTag], cuisines: [RecipeCuisine], categories: [RecipeCategory], servings: Int, ingredients: [RecipeIngredientEntry], instructions: [String]) {
+    init(id: RecipeID, name: String, subtitle: String, imageStoragePath: String, meals: [RecipeMeal], tags: [RecipeTag], cuisines: [RecipeCuisine], categories: [RecipeCategory], servings: Int, ingredients: [RecipeIngredientEntry], instructions: [String]) {
         self.id = id
         self.name = name
         self.subtitle = subtitle
-        self.imageName = imageName
+        self.imageStoragePath = imageStoragePath
         self.meals = meals
         self.tags = tags
         self.cuisines = cuisines
@@ -103,6 +103,7 @@ enum RecipeTag: String {
     case meat = "meat"
     case fish = "fish"
     case vegan = "vegan"
+    case vegetable = "vegetable"
     case noodles = "noodles"
     case rice = "rice"
     case chicken = "chicken"
@@ -134,6 +135,7 @@ enum RecipeCuisine: String {
     case italian = "italian"
     case mexican = "mexican"
     case vietnamese = "vietnamese"
+    case hongkong = "hongkong"
 }
 enum RecipeCategory: String {
     case mainCourse = "mainCourse"

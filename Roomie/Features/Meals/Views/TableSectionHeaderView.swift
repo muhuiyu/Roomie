@@ -62,7 +62,7 @@ extension TableSectionHeaderView {
         textLabel.font = isTextBold ? UIFont.bodyHeavy : UIFont.body
         addSubview(textLabel)
         addSubview(actionButton)
-        backgroundColor = UIColor.systemGroupedBackground
+        backgroundColor = UIColor.secondarySystemBackground
     }
     private func configureGestures() {
         

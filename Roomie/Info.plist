@@ -21,9 +21,11 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.muhuiyu.roomie</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.231643447826-ihqntu69hasiikehuj7kesoo62v6utip</string>
+				<string>com.googleusercontent.apps.231643447826-6s9di79jjs3j95ilf30ha69ej2nj4l23</string>
 			</array>
 		</dict>
 	</array>

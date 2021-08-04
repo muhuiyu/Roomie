@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Kingfisher
+import FirebaseStorage
 
 class RecipeDetailViewController: ViewController {
     
@@ -19,7 +21,7 @@ class RecipeDetailViewController: ViewController {
             guard let entry = entry else { return }
             headerView.title = entry.name
             headerView.subtitle = entry.subtitle
-            headerView.image = UIImage(named: entry.imageName)
+            headerView.imageStoragePath = entry.imageStoragePath
         }
     }
     override func viewDidLoad() {

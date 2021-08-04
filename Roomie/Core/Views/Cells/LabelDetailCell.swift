@@ -36,10 +36,10 @@ class LabelDetailCell: UITableViewCell {
 // MARK: - View Config
 extension LabelDetailCell {
     private func configureViews() {
-        labelLabel.textColor = UIColor.basic.dark
+        labelLabel.textColor = UIColor.label
         labelLabel.font = UIFont.body
         contentView.addSubview(labelLabel)
-        valueLabel.textColor = UIColor.text.subtle
+        valueLabel.textColor = UIColor.secondaryLabel
         valueLabel.font = UIFont.body
         valueLabel.textAlignment = .right
         contentView.addSubview(valueLabel)

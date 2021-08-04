@@ -13,6 +13,7 @@ import GoogleSignIn
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let database = DatabaseDataSource()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
@@ -20,8 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
-        
-//        let database = DatabaseDataSource()
+//
 //        let ingredients: [IngredientEntry] = [
 //
 //        ]
@@ -31,23 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                fatalError()
 //            }
 //        }
-//
 //        let recipes: [RecipeEntry] = [
-//            RecipeEntry(id: "recipe-corn-and-cream-korokke",
-//                        name: "コーンコロッケ (corn & cream korokke)",
-//                        subtitle: "this is subtitle",
-//                        imageName: "recipe-corn-and-cream-korokke",
-//                        meals: [],
-//                        tags: [.deepFry],
-//                        cuisines: [.japanese],
-//                        categories: [.sidedish],
-//                        servings: 2,
-//                        ingredients: [
-//
-//                        ],
-//                        instructions: [
-//                            ""
-//                        ]),
+//            
 //        ]
 //        database.setRecipes(with: recipes) { error in
 //            if let error = error {
@@ -55,32 +40,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                fatalError()
 //            }
 //        }
-        
-        if let _ = Auth.auth().currentUser {
-            setViewControllers(window: window)
+
+        database.setup(asGroup: "baj3tAjA3m7r2jT8scPG") { error in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            if let _ = Auth.auth().currentUser {
+                self.setViewControllers(window: window)
+            }
+            else {
+                let welcomeViewController = WelcomeViewController()
+                welcomeViewController.delegate = self
+                window.rootViewController = welcomeViewController
+            }
+            window.makeKeyAndVisible()
         }
-        else {
-            let welcomeViewController = WelcomeViewController()
-            welcomeViewController.delegate = self
-            window.rootViewController = welcomeViewController
-        }
-        window.makeKeyAndVisible()
         return true
     }
 
 }
 extension AppDelegate {
     private func setViewControllers(window: UIWindow) {
-        let database = DatabaseDataSource()
-        
-        database.setup(using: "baj3tAjA3m7r2jT8scPG") { error in
-            if let error = error {
-                print(error)
-                return
-            }
-        }
-        
-        let homeViewController = HomeViewController(database: database)
+        let homeViewController = HomeViewController(database: self.database)
 //        let chatViewController = ChatViewController()
         let listViewController = ListViewController()
         let settingsViewController = SettingsViewController()

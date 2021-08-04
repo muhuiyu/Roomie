@@ -31,7 +31,7 @@ class LabelCell: UITableViewCell {
 // MARK: - View Config
 extension LabelCell {
     private func configureViews() {
-        labelLabel.textColor = UIColor.basic.dark
+        labelLabel.textColor = UIColor.label
         labelLabel.font = UIFont.body
         contentView.addSubview(labelLabel)
     }

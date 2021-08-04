@@ -94,7 +94,7 @@ extension HomeViewController {
             cookMealPlanCell.tapHandler = {[weak self] in
                 self?.didTapGroupMealPlan()
             }
-            cells[0].append(cookMealPlanCell)
+            cells[1].append(cookMealPlanCell)
         }
     }
     private func configureViews() {

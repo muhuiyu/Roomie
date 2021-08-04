@@ -15,7 +15,7 @@ class DailyMealsCell: UITableViewCell {
         didSet {
             let label = UILabel()
             label.text = userName
-            label.font = UIFont.body
+            label.font = UIFont.bodyHeavy
             label.textColor = UIColor.label.withAlphaComponent(0.8)
             label.numberOfLines = 0
             stackView.insertArrangedSubview(label, at: 0)
@@ -23,8 +23,6 @@ class DailyMealsCell: UITableViewCell {
     }
     var mealData: [(String, String)] = [] {
         didSet {
-            stackView.removeAllArrangedSubviews()
-            
             for data in mealData {
                 let label = UILabel()
                 label.text = "・" + data.0 + ": " + data.1
@@ -45,6 +43,12 @@ class DailyMealsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+// MARK: - Actions
+extension DailyMealsCell {
+    func clearStack() {
+        stackView.removeAllArrangedSubviews()
+    }
 }
 // MARK: - View Config
 extension DailyMealsCell {

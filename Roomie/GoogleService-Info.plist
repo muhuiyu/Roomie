@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>231643447826-ihqntu69hasiikehuj7kesoo62v6utip.apps.googleusercontent.com</string>
+	<string>231643447826-6s9di79jjs3j95ilf30ha69ej2nj4l23.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.231643447826-ihqntu69hasiikehuj7kesoo62v6utip</string>
+	<string>com.googleusercontent.apps.231643447826-6s9di79jjs3j95ilf30ha69ej2nj4l23</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCE4p1F_X06zlFSCNb4QUO-4SDLYwdjMLI</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>muhuiyu.Roomie</string>
+	<string>com.muhuiyu.roomie</string>
 	<key>PROJECT_ID</key>
 	<string>roomie-f26c6</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:231643447826:ios:ce13f5d50c0f343ca4cecb</string>
+	<string>1:231643447826:ios:bb8fcf1a251f72fda4cecb</string>
 </dict>
 </plist>

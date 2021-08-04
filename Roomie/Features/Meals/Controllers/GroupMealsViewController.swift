@@ -96,7 +96,7 @@ extension GroupMealsViewController {
     }
     private func configureConstraints() {
         tableView.snp.remakeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
         activityIndicatorView.snp.remakeConstraints { make in
             make.center.equalToSuperview()
@@ -106,19 +106,7 @@ extension GroupMealsViewController {
 // MARK: - Data Source
 extension GroupMealsViewController: UITableViewDataSource {
     private func printDate(viewForHeaderInSection section: Int) -> String? {
-        let dailyEntry = dailyEntries[section][0]
-        
-        var dateComponents = DateComponents()
-        dateComponents.year = dailyEntry.year
-        dateComponents.month = dailyEntry.month
-        dateComponents.day = dailyEntry.day
-        dateComponents.timeZone = TimeZone(abbreviation: "UTC")
-        dateComponents.hour = 0
-        dateComponents.minute = 0
-        
-        let calendar = Calendar(identifier: .gregorian)
-        guard let date = calendar.date(from: dateComponents) else { return nil }
-        return date.printWeekDayAndDay()
+        return startDate.day(add: section).printWeekDayAndDay()
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = TableSectionHeaderView()
@@ -131,27 +119,36 @@ extension GroupMealsViewController: UITableViewDataSource {
         return dailyEntries.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dailyEntries[0].count    // how many users in the group
+        if dailyEntries[section].count == 0 { return 1 }
+        else { return dailyEntries[section].count }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyMealsCell.reuseID, for: indexPath) as? DailyMealsCell else { return UITableViewCell() }
-
-        let dayEntry = dailyEntries[indexPath.section][indexPath.row]
-        
-        var mealData = [(String, String)]()     // mealName, mealList
-        for meal in dayEntry.meals {
-            if meal.recipes.count == 0 { continue }
-            
-            var recipeNames = [String]()
-            for recipe in meal.recipes {
-                guard let recipeName = self.database.recipeDictionary[recipe] else { continue }
-                recipeNames.append(recipeName.name)
-            }
-            mealData.append((meal.name, recipeNames.joined(separator: ", ")))
+        if dailyEntries[indexPath.section].count == 0 {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            cell.textLabel?.text = "No records yet"
+            cell.textLabel?.textColor = UIColor.tertiaryLabel
+            return cell
         }
-        cell.userName = dayEntry.userID
-        cell.mealData = mealData
-        return cell
+        else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyMealsCell.reuseID, for: indexPath) as? DailyMealsCell else { return UITableViewCell() }
+
+            let dayEntry = dailyEntries[indexPath.section][indexPath.row]
+            var mealData = [(String, String)]()     // mealName, mealList
+            for meal in dayEntry.meals {
+                if meal.recipes.count == 0 { continue }
+                
+                var recipeNames = [String]()
+                for recipe in meal.recipes {
+                    guard let recipeName = self.database.recipeDictionary[recipe] else { continue }
+                    recipeNames.append(recipeName.name)
+                }
+                mealData.append((meal.name, recipeNames.joined(separator: ", ")))
+            }
+            cell.clearStack()
+            cell.userName = database.getUserName(by: dayEntry.userID)
+            cell.mealData = mealData
+            return cell
+        }
     }
 }
 // MARK: - Delegate
@@ -160,11 +157,15 @@ extension GroupMealsViewController: UITableViewDelegate {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }
-        let dailyEntry = dailyEntries[indexPath.section][indexPath.row]
-        let viewController = DailyMealsPlanViewController(database: database, entry: dailyEntry, weekdayIndex: indexPath.section)
-        viewController.delegate = self
-        viewController.title = dailyEntry.printWeekDayAndDayWithoutYear()
-        navigationController?.pushViewController(viewController, animated: true)
+        if dailyEntries[indexPath.section].count == 0 { return }
+        else {
+            let dailyEntry = dailyEntries[indexPath.section][indexPath.row]
+            let viewController = DailyMealsPlanViewController(database: database, entry: dailyEntry, weekdayIndex: indexPath.section)
+            viewController.delegate = self
+            viewController.mode = .view
+            viewController.title = dailyEntry.printWeekDayAndDayWithoutYear()
+            navigationController?.pushViewController(viewController, animated: true)
+        }
     }
 }
 // MARK: - Delegate from DailyMealsViewController

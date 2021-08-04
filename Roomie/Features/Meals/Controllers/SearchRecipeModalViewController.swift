@@ -9,6 +9,7 @@ import UIKit
 
 protocol SearchRecipeModalViewControllerDelegate: AnyObject {
     func searchRecipeModalViewController(_ controller: SearchRecipeModalViewController, didSelectItem item: RecipeEntry, for mealIndex: Int)
+    func searchRecipeModalViewController(_ controller: SearchRecipeModalViewController, didSelectItem item: RecipeEntry, toReplaceAt indexPath: IndexPath)
     func searchRecipeModalViewControllerDidRequestDismiss(_ controller: SearchRecipeModalViewController)
 }
 
@@ -42,6 +43,7 @@ class SearchRecipeModalViewController: ViewController {
         }
     }
     var selectedMealIndex: Int = 0
+    var previousSelectedIndexpath: IndexPath?
 
     weak var delegate: SearchRecipeModalViewControllerDelegate?
 
@@ -56,6 +58,7 @@ class SearchRecipeModalViewController: ViewController {
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        
         self.configureViews()
         self.configureConstraints()
     }
@@ -81,6 +84,10 @@ extension SearchRecipeModalViewController {
     private func didTapDismiss() {
         delegate?.searchRecipeModalViewControllerDidRequestDismiss(self)
     }
+    @objc
+    private func didTapSuggestion() {
+        
+    }
 }
 // MARK: - View Config
 extension SearchRecipeModalViewController {
@@ -88,6 +95,8 @@ extension SearchRecipeModalViewController {
         title = "Add Dish"
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapDismiss))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Suggest", style: .plain, target: self, action: #selector(didTapSuggestion))
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
@@ -123,7 +132,12 @@ extension SearchRecipeModalViewController: UITableViewDelegate {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }
-        delegate?.searchRecipeModalViewController(self, didSelectItem: items[indexPath.row], for: selectedMealIndex)
+        if let previousSelectedIndexpath = previousSelectedIndexpath {
+            delegate?.searchRecipeModalViewController(self, didSelectItem: items[indexPath.row], toReplaceAt: previousSelectedIndexpath)
+        }
+        else {
+            delegate?.searchRecipeModalViewController(self, didSelectItem: items[indexPath.row], for: selectedMealIndex)
+        }
     }
 }
 // MARK: - Search Result

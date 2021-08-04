@@ -35,6 +35,8 @@ class MealsViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        database.delegate = self
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(LinkCell.self, forCellReuseIdentifier: LinkCell.reuseID)
@@ -85,6 +87,7 @@ extension MealsViewController {
         ])
         let viewController = DailyMealsPlanViewController(database: database, entry: emptyEntry, weekdayIndex: weekdayIndex)
         viewController.delegate = self
+        viewController.mode = .edit
         viewController.title = emptyEntry.printWeekDayAndDayWithoutYear()
         navigationController?.pushViewController(viewController, animated: true)
     }
@@ -176,6 +179,7 @@ extension MealsViewController: UITableViewDataSource {
                 }
                 mealData.append((meal.name, recipeNames.joined(separator: ", ")))
             }
+            cell.clearStack()
             cell.mealData = mealData
             return cell
         }
@@ -190,8 +194,17 @@ extension MealsViewController: UITableViewDelegate {
         let dailyEntry = dailyEntries[indexPath.section]
         let viewController = DailyMealsPlanViewController(database: database, entry: dailyEntry, weekdayIndex: indexPath.section)
         viewController.delegate = self
+        viewController.mode = .edit
         viewController.title = dailyEntry.printWeekDayAndDayWithoutYear()
         navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+// MARK: - Delegate from DatabaseDataSource
+extension MealsViewController: DatabaseDataSourceDelegate {
+    func databaseDataSourceGroupEntryDidChange(_ database: DatabaseDataSource) {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 // MARK: - Delegate from DailyMealsViewController

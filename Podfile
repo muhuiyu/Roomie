@@ -8,9 +8,11 @@ target 'Roomie' do
   # Pods for Roomie
   pod 'SnapKit'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
   pod 'Firebase/Auth'
   pod 'GoogleSignIn'
   pod 'Firebase/Database'
+  pod 'Kingfisher'
 
   target 'RoomieTests' do
     inherit! :search_paths

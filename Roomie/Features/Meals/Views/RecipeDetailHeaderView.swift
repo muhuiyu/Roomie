@@ -25,6 +25,15 @@ class RecipeDetailHeaderView: UIView {
         get { return bannerView.image }
         set { bannerView.image = newValue }
     }
+    var imageStoragePath: String? {
+        didSet {
+            guard let imageStoragePath = imageStoragePath else {
+                bannerView.image = nil
+                return
+            }
+            bannerView.kf.setImage(with: FirebaseStorageImageDataProvider(imageStoragePath: imageStoragePath))
+        }
+    }
     var tapHandler: (() -> Void)? {
         didSet {
             addToPlanButton.tapHandler = tapHandler
@@ -50,6 +59,7 @@ extension RecipeDetailHeaderView {
     private func configureViews() {
         bannerView.contentMode = .scaleAspectFill
         bannerView.clipsToBounds = true
+        bannerView.backgroundColor = UIColor.systemGray3
         addSubview(bannerView)
         
         titleLabel.font = UIFont.h3
