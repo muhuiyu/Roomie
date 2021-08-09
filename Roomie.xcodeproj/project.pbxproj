@@ -16,6 +16,8 @@
 		E40FA2492694A45200528A80 /* MessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40FA2482694A45200528A80 /* MessageContentView.swift */; };
 		E40FA24B2694A48700528A80 /* MessageTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40FA24A2694A48700528A80 /* MessageTextCell.swift */; };
 		E40FA24D26954DE300528A80 /* MessageImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40FA24C26954DE300528A80 /* MessageImageCell.swift */; };
+		E417665B26BF698C00ADA3E9 /* SearchRecipeModalFilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E417665A26BF698C00ADA3E9 /* SearchRecipeModalFilterBarView.swift */; };
+		E417665D26BF6C3C00ADA3E9 /* TagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E417665C26BF6C3C00ADA3E9 /* TagButton.swift */; };
 		E424EF56268F564100114947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E424EF55268F564100114947 /* AppDelegate.swift */; };
 		E424EF58268F564100114947 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E424EF57268F564100114947 /* SceneDelegate.swift */; };
 		E424EF5F268F564300114947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E424EF5E268F564300114947 /* Assets.xcassets */; };
@@ -146,6 +148,8 @@
 		E40FA2482694A45200528A80 /* MessageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContentView.swift; sourceTree = "<group>"; };
 		E40FA24A2694A48700528A80 /* MessageTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextCell.swift; sourceTree = "<group>"; };
 		E40FA24C26954DE300528A80 /* MessageImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImageCell.swift; sourceTree = "<group>"; };
+		E417665A26BF698C00ADA3E9 /* SearchRecipeModalFilterBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecipeModalFilterBarView.swift; sourceTree = "<group>"; };
+		E417665C26BF6C3C00ADA3E9 /* TagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagButton.swift; sourceTree = "<group>"; };
 		E424EF52268F564100114947 /* Roomie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roomie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E424EF55268F564100114947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E424EF57268F564100114947 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -687,6 +691,8 @@
 				E452F9ED26AE6F4300FAB345 /* RecipeDetailInstructionCell.swift */,
 				E497345326B00B7800796D87 /* TableSectionHeaderView.swift */,
 				E497345B26B063F400796D87 /* MealsTableHeaderView.swift */,
+				E417665A26BF698C00ADA3E9 /* SearchRecipeModalFilterBarView.swift */,
+				E417665C26BF6C3C00ADA3E9 /* TagButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1049,6 +1055,7 @@
 				E44C528B268F571700FDBDCB /* EditableTitleValueCell.swift in Sources */,
 				E44C52B3268F571700FDBDCB /* UIViewController+Toast.swift in Sources */,
 				E44C52A3268F571700FDBDCB /* SetTimerView.swift in Sources */,
+				E417665D26BF6C3C00ADA3E9 /* TagButton.swift in Sources */,
 				E44C52AE268F571700FDBDCB /* UIColor+hex.swift in Sources */,
 				E424EF56268F564100114947 /* AppDelegate.swift in Sources */,
 				E44C529C268F571700FDBDCB /* CardTitleImageButton.swift in Sources */,
@@ -1096,6 +1103,7 @@
 				E44C52D9268F63BC00FDBDCB /* StickerMessageView.swift in Sources */,
 				E44DA1F1269C8EFE00AE4B66 /* DailyMealsEntry.swift in Sources */,
 				E44C52BF268F571700FDBDCB /* SearchLabelModalViewController.swift in Sources */,
+				E417665B26BF698C00ADA3E9 /* SearchRecipeModalFilterBarView.swift in Sources */,
 				E4933487269B44A200467CB0 /* MealsViewController.swift in Sources */,
 				E44DA1FE269DE89700AE4B66 /* DatabaseDataSource.swift in Sources */,
 				E424EF58268F564100114947 /* SceneDelegate.swift in Sources */,

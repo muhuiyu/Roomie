@@ -337,7 +337,28 @@ extension DatabaseDataSource {
         }
     }
 }
-
+// MARK: - Filter
+extension DatabaseDataSource {
+    func getAllRecipes(asMeal meal: RecipeMeal) -> [RecipeEntry] {
+        var filteredRecipes = [RecipeEntry]()
+        for recipe in allRecipes {
+            if !recipe.hasMeal(meal) { continue }
+            filteredRecipes.append(recipe)
+        }
+        return filteredRecipes
+    }
+    func getAllRecipes(asMeal meal: RecipeMeal, withTags tags: [RecipeTag], withCategories categories: [RecipeCategory], fromCountries cuisines: [RecipeCuisine]) -> [RecipeEntry] {
+        var filteredRecipes = [RecipeEntry]()
+        for recipe in allRecipes {
+            if !recipe.hasMeal(meal) { continue }
+            if recipe.intersectionSubset(with: tags).isEmpty { continue }
+            if recipe.intersectionSubset(with: categories).isEmpty { continue }
+            if recipe.intersectionSubset(with: cuisines).isEmpty { continue }
+            filteredRecipes.append(recipe)
+        }
+        return filteredRecipes
+    }
+}
 // MARK: - Fetch
 extension DatabaseDataSource {
     func fetchMeals(as userID: UserID, on date: (Int, Int, Int), callback: @escaping (_ meals: [MealEntry], _ error: Error?) -> Void) {

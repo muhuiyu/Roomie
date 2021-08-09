@@ -86,9 +86,8 @@ extension DailyMealsPlanViewController {
     private func didTapAddMeal(at mealIndex: Int) {
         if mode == .view { return }
         
-        let viewController = SearchRecipeModalViewController(database: database)
+        let viewController = SearchRecipeModalViewController(database: database, selectedMealIndex: mealIndex)
         viewController.delegate = self
-        viewController.selectedMealIndex = mealIndex
         viewController.isModalInPresentation = true
         present(viewController.embedInNavgationController(), animated: true) {
             DispatchQueue.main.async {
@@ -167,10 +166,9 @@ extension DailyMealsPlanViewController: UITableViewDelegate {
         case .edit:
             guard let _ = tableView.cellForRow(at: indexPath) as? RecipeCell else { return }
 
-            let viewController = SearchRecipeModalViewController(database: database)
+            let viewController = SearchRecipeModalViewController(database: database, selectedMealIndex: indexPath.section)
             viewController.delegate = self
             viewController.previousSelectedIndexpath = indexPath
-            viewController.selectedMealIndex = indexPath.section
             viewController.isModalInPresentation = true
             present(viewController.embedInNavgationController(), animated: true) {
                 DispatchQueue.main.async {

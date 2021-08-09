@@ -96,6 +96,35 @@ struct RecipeEntry {
         self.ingredients = ingredients
         self.instructions = instructions
     }
+    
+    func hasMeal(_ meal: RecipeMeal) -> Bool { return self.meals.contains(meal) }
+    func hasIngredient(_ ingredientID: IngredientID) -> Bool {
+        for ingredient in self.ingredients {
+            if ingredient.id == ingredientID { return true }
+        }
+        return false
+    }
+    func intersectionSubset(with tags: [RecipeTag]) -> [RecipeTag] {
+        var result = [RecipeTag]()
+        for tag in tags {
+            if self.tags.contains(tag) { result.append(tag) }
+        }
+        return result
+    }
+    func intersectionSubset(with cuisine: [RecipeCuisine]) -> [RecipeCuisine] {
+        var result = [RecipeCuisine]()
+        for cuisine in cuisines {
+            if self.cuisines.contains(cuisine) { result.append(cuisine) }
+        }
+        return result
+    }
+    func intersectionSubset(with category: [RecipeCategory]) -> [RecipeCategory] {
+        var result = [RecipeCategory]()
+        for category in categories {
+            if self.categories.contains(category) { result.append(category) }
+        }
+        return result
+    }
 }
 
 enum RecipeTag: String {
@@ -124,6 +153,9 @@ enum RecipeTag: String {
     case mapo = "mapo"
     case bread = "bread"
     case seafood = "seafood"
+    case cheese = "cheese"
+    case miso = "miso"
+    case kimchi = "kimchi"
 }
 enum RecipeCuisine: String {
     case america = "america"

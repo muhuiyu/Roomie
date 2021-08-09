@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
-//
+
 //        let ingredients: [IngredientEntry] = [
 //
 //        ]
@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
 //        let recipes: [RecipeEntry] = [
-//            
+//
 //        ]
 //        database.setRecipes(with: recipes) { error in
 //            if let error = error {
