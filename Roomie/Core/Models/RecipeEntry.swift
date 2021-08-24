@@ -156,6 +156,8 @@ enum RecipeTag: String {
     case cheese = "cheese"
     case miso = "miso"
     case kimchi = "kimchi"
+    case pasta = "pasta"
+    case bacon = "bacon"
 }
 enum RecipeCuisine: String {
     case america = "america"
@@ -178,6 +180,8 @@ enum RecipeCategory: String {
     case dessert = "dessert"
     case soup = "soup"
     case bakery = "bakery"
+    case wrap = "wrap"
+    case sauce = "sauce"
 }
 enum RecipeMeal: String {
     case breakfast = "breakfast"

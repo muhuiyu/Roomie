@@ -31,15 +31,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                fatalError()
 //            }
 //        }
-//        let recipes: [RecipeEntry] = [
-//
-//        ]
-//        database.setRecipes(with: recipes) { error in
-//            if let error = error {
-//                print(error)
-//                fatalError()
-//            }
-//        }
+        let recipes: [RecipeEntry] = [
+            
+        ]
+        database.setRecipes(with: recipes) { error in
+            if let error = error {
+                print(error)
+                fatalError()
+            }
+        }
 
         database.setup(asGroup: "baj3tAjA3m7r2jT8scPG") { error in
             if let error = error {
