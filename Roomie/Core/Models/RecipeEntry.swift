@@ -161,6 +161,7 @@ enum RecipeTag: String {
 }
 enum RecipeCuisine: String {
     case america = "america"
+    case british = "british"
     case chinese = "chinese"
     case taiwaneese = "taiwanese"
     case japanese = "japanese"

@@ -22,17 +22,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
 
-//        let ingredients: [IngredientEntry] = [
-//
-//        ]
-//        database.setIngredients(with: ingredients) { error in
-//            if let error = error {
-//                print(error)
-//                fatalError()
-//            }
-//        }
+        let ingredients: [IngredientEntry] = [
+            
+        ]
+        database.setIngredients(with: ingredients) { error in
+            if let error = error {
+                print(error)
+                fatalError()
+            }
+        }
         let recipes: [RecipeEntry] = [
             
+            RecipeEntry(id: "recipe-stir-fry-pork-mince-with-fish-sauce",
+                        name: "ナンプラーで豚そぼろ (stir-fried pork mince with fish sauce)",
+                        subtitle: "this is subtitle",
+                        imageStoragePath: "recipe-images/recipe-stir-fry-pork-mince-with-fish-sauce.jpg",
+                        meals: [],
+                        tags: [.pork, .riceBowl, .stirFry],
+                        cuisines: [.vietnamese],
+                        categories: [.mainCourse],
+                        servings: 1,
+                        ingredients: [
+                            RecipeIngredientEntry(id: "ingredient-minced-pork", amount: 100, unit: .gram),
+                            RecipeIngredientEntry(id: "ingredient-onion", amount: 0.5, unit: .each),
+                            RecipeIngredientEntry(id: "ingredient-garlic", amount: 1, unit: .each),
+                            RecipeIngredientEntry(id: "ingredient-rice-wine", amount: 1, unit: .teaspoon),
+                            RecipeIngredientEntry(id: "ingredient-fish-sauce", amount: 1, unit: .teaspoon),
+                            RecipeIngredientEntry(id: "ingredient-lemon-juice", amount: 1, unit: .teaspoon),
+                            RecipeIngredientEntry(id: "ingredient-sugar", amount: 0.5, unit: .teaspoon),
+                            RecipeIngredientEntry(id: "ingredient-spring-onion", amount: 1, unit: .each),
+                        ],
+                        instructions: [
+                            "Fry the garlic and onion. Add meat and rice wine in. Stir-fry until there's no water inside.",
+                            "Add fish sauce, lemon juice and sugar.",
+                            "Serve with coriander and spring onion."
+                        ]),
         ]
         database.setRecipes(with: recipes) { error in
             if let error = error {
